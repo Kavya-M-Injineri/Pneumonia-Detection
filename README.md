@@ -1,69 +1,97 @@
-# Medical AI Chest X-ray Classifier
+# Medical AI — Chest X-ray Pneumonia Classifier
 
-A professional, medical-grade web application for detecting Pneumonia from Chest X-ray images using Deep Learning (MobileNetV2) and Flask.
+A medical-grade web application that classifies chest X-rays for pneumonia using **transfer learning on MobileNetV2**, with pathogen-level sub-classification (Viral vs Bacterial), confidence scoring, dual treatment recommendations, and a role-based access Flask backend.
 
-## Features
-- **Secure Login Portal**: Role-based access for Admins, Radiologists, and Viewers.
-- **AI-Powered Analysis**: Real-time Pneumonia detection with confidence scores.
-- **Pathogen Classification**: Distinguishes between **Viral** and **Bacterial** Pneumonia patterns.
-- **Medical Dashboard**: Professional UI with drag-and-drop upload.
-- **Detailed Reports**: 
-    - Identifies specific causes (e.g., "Streptococcus pneumoniae" vs "Influenza").
-    - Provides tailored **treatment plans** including:
-        - **Modern Medicine**: Specific antibiotics or antivirals.
-        - **Ayurvedic Remedies**: Holistic care suggestions like Turmeric Milk or Tulsi Tea.
-- **Responsive Design**: Optimized for desktop and tablets.
+---
 
-## Project Structure
+## Highlights
+
+- Fine-tuned **MobileNetV2** (ImageNet pre-trained) on the Kaggle Chest X-Ray dataset for binary pneumonia detection, leveraging transfer learning for high accuracy on a limited medical imaging dataset
+- Built **pathogen sub-classification** — model distinguishes Viral vs Bacterial pneumonia patterns with specific pathogen identification (e.g., Streptococcus pneumoniae, Influenza) and per-prediction confidence scores
+- Generated **dual treatment reports** per diagnosis — Modern Medicine recommendations (specific antibiotics or antivirals) alongside Ayurvedic alternatives (e.g., Turmeric Milk, Tulsi Tea) for holistic care context
+- Implemented **role-based access control** with three user tiers — Admin, Radiologist, and Viewer — each with scoped dashboard permissions
+- Designed an **image preprocessing pipeline** (`utils.py`) handling resizing, normalization, and augmentation consistent between training and inference to prevent train-serve skew
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| ML Model | TensorFlow, Keras — MobileNetV2 (transfer learning) |
+| Preprocessing | Custom pipeline in `utils.py` |
+| Backend | Flask, Python 3.8+ |
+| Auth | Role-based access (Admin / Radiologist / Viewer) |
+| Frontend | HTML, CSS, JavaScript (drag-and-drop upload) |
+| Dataset | Kaggle Chest X-Ray Images (Pneumonia) |
+
+---
+
+## Model Design
+
+- **Base model:** MobileNetV2 pre-trained on ImageNet, top layers replaced and fine-tuned
+- **Task:** Binary classification (Normal vs Pneumonia) + sub-classification (Viral vs Bacterial)
+- **Input:** Preprocessed chest X-ray images (resized, normalized)
+- **Output:** Class label + confidence score + pathogen attribution
+- **Saved to:** `models/pneumonia_model.h5`
+
+---
+
+## Setup
+
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
 ```
-/
-├── app.py                 # Flask backend
-├── train.py               # Model training script
-├── utils.py               # Image preprocessing utility
-├── requirements.txt       # Dependencies
-├── models/                # Saved models
-├── static/                # CSS, JS, Images
-└── templates/             # HTML Templates
+
+### 2. Dataset
+Place the Kaggle [Chest X-Ray Images (Pneumonia)](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia) dataset in the project root:
+```
+chest_xray/
+├── train/
+├── val/
+└── test/
 ```
 
-## Setup & Installation
+### 3. Train the Model
+```bash
+python train.py
+# → Saves trained model to models/pneumonia_model.h5
+```
 
-1. **Prerequisites**
-   - Python 3.8+
-   - pip
-   - Virtual environment (recommended)
+### 4. Run the App
+```bash
+python app.py
+# → http://127.0.0.1:5000
+```
 
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Dataset Setup**
-   Ensure the Kaggle "Chest X-Ray Images (Pneumonia)" dataset is placed in the local directory:
-   ```
-   chest_xray/
-   ├── train/
-   ├── val/
-   └── test/
-   ```
-
-4. **Train the Model** (Optional if model already exists)
-   ```bash
-   python train.py
-   ```
-   This will save the trained model to `models/pneumonia_model.h5`.
-
-5. **Run the Application**
-   ```bash
-   python app.py
-   ```
-   The application will start at `http://127.0.0.1:5000`.
+---
 
 ## Usage
-1. Open the web browser and go to the local server address.
-2. Login with any credentials (demo mode).
-3. Drag and drop a Chest X-ray image onto the dashboard.
-4. Click "Analyze" to see the AI prediction.
 
-## Disclaimer
-**For Educational Purposes Only.** This tool is not intended for primary diagnosis. Always consult a certified radiologist for clinical decisions.
+1. Login with role credentials (Admin / Radiologist / Viewer)
+2. Drag and drop a chest X-ray image onto the dashboard
+3. Click **Analyze** — model returns:
+   - Normal / Pneumonia classification
+   - Viral vs Bacterial sub-type + pathogen identification
+   - Confidence score
+   - **Modern Medicine plan** — specific antibiotics or antivirals based on pathogen type
+   - **Ayurvedic plan** — holistic care suggestions (e.g., Turmeric Milk, Tulsi Tea, Giloy)
+
+---
+
+## Project Structure
+
+```
+├── app.py              # Flask server — routes, auth, prediction API
+├── train.py            # MobileNetV2 fine-tuning + model save
+├── utils.py            # Image preprocessing pipeline (resize, normalize)
+├── models/
+│   └── pneumonia_model.h5   # Trained model weights
+├── templates/          # Dashboard, login, report UI
+└── static/             # CSS, JS, assets
+```
+
+---
+
+> **Disclaimer:** For educational and research purposes only. This tool is not intended for primary clinical diagnosis. Always consult a certified radiologist or medical professional for healthcare decisions.
