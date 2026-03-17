@@ -1,4 +1,4 @@
-# Medical AI — Chest X-ray Pneumonia Classifier 1111
+# Medical AI — Chest X-ray Pneumonia Classifier 
 
 A medical-grade web application that classifies chest X-rays for pneumonia using **transfer learning on MobileNetV2**, with pathogen-level sub-classification (Viral vs Bacterial), confidence scoring, dual treatment recommendations, and a role-based access Flask backend.
 
