@@ -4,7 +4,7 @@ A medical-grade web application that classifies chest X-rays for pneumonia using
 
 ---
 
-## Highlights
+## Highlights  
 
 - Fine-tuned **MobileNetV2** (ImageNet pre-trained) on the Kaggle Chest X-Ray dataset for binary pneumonia detection, leveraging transfer learning for high accuracy on a limited medical imaging dataset
 - Built **pathogen sub-classification** — model distinguishes Viral vs Bacterial pneumonia patterns with specific pathogen identification (e.g., Streptococcus pneumoniae, Influenza) and per-prediction confidence scores
@@ -14,7 +14,7 @@ A medical-grade web application that classifies chest X-rays for pneumonia using
 
 ---
 
-## Tech Stack
+## Tech Stack  
 
 | Layer | Technology |
 |---|---|
@@ -26,9 +26,9 @@ A medical-grade web application that classifies chest X-rays for pneumonia using
 | Dataset | Kaggle Chest X-Ray Images (Pneumonia) |
 
 ---
-
-## Model Design
-
+  
+## Model Design  
+   
 - **Base model:** MobileNetV2 pre-trained on ImageNet, top layers replaced and fine-tuned
 - **Task:** Binary classification (Normal vs Pneumonia) + sub-classification (Viral vs Bacterial)
 - **Input:** Preprocessed chest X-ray images (resized, normalized)
@@ -36,9 +36,9 @@ A medical-grade web application that classifies chest X-rays for pneumonia using
 - **Saved to:** `models/pneumonia_model.h5`
 
 ---
-
+  
 ## Setup
-
+  
 ### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
