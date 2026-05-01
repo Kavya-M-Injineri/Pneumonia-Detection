@@ -10,7 +10,7 @@ A medical-grade web application that classifies chest X-rays for pneumonia using
 - Built **pathogen sub-classification** — model distinguishes Viral vs Bacterial pneumonia patterns with specific pathogen identification (e.g., Streptococcus pneumoniae, Influenza) and per-prediction confidence scores
 - Generated **dual treatment reports** per diagnosis — Modern Medicine recommendations (specific antibiotics or antivirals) alongside Ayurvedic alternatives (e.g., Turmeric Milk, Tulsi Tea) for holistic care context
 - Implemented **role-based access control** with three user tiers — Admin, Radiologist, and Viewer — each with scoped dashboard permissions
-- Designed an **image preprocessing pipeline** (`utils.py`) handling resizing, normalization, and augmentation consistent between training and inference to prevent train-serve skew
+- Designed an **image preprocessing pipeline** (`utils.py`) handling resizing, normalization, and augmentation consistent between training and inference to prevent train-serve skew        
 
 ---
 
